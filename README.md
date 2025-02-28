@@ -1,117 +1,62 @@
-# Echo Server with Node.js and net Module
+# Node.js TCP and HTTP Servers
 
+## Introduction
+This project contains three different server implementations in Node.js:
+- A **simple TCP server** (`SimpleTCPserver.js`)
+- An **asynchronous TCP echo server** (`TCPserverAsync.js`)
+- An **HTTP server** (`HTTPServer.js`)
 
+These servers demonstrate basic networking concepts using the `net` module in Node.js.
 
-Echo Server is a simple TCP server built with Node.js that listens for client connections, reads incoming data, and echoes it back. It supports handling multiple concurrent connections and ensures asynchronous data processing.
-
----
-
-## Features
-
-- **Asynchronous Data Handling**: Uses Promises to manage socket communication.
-- **Graceful Error Handling**: Properly detects and manages EOF and socket errors.
-- **Echo Functionality**: Reads data from clients and sends it back.
-- **Concurrent Connections**: Handles multiple clients at once.
-
----
-
-## Prerequisites
-
-- Install [Node.js](https://nodejs.org/) (v14 or later recommended)
-
----
+## Table of Contents
+- [Installation](#installation)
+- [Usage](#usage)
+- [Features](#features)
+- [Dependencies](#dependencies)
+- [License](#license)
 
 ## Installation
-
-Clone the repository and navigate to the project directory:
-
-```sh
-git clone https://github.com/your-username/echo-server.git
-cd echo-server
-```
-
----
+1. Install [Node.js](https://nodejs.org/) if you haven't already.
+2. Clone this repository or download the files.
+3. Navigate to the project directory.
 
 ## Usage
 
-Start the server:
-
+### Running the Simple TCP Server
+Run the following command:
 ```sh
-node server.js
+node SimpleTCPserver.js
 ```
+- The server listens on `localhost:5555`.
+- It echoes back any data received.
 
-The server will start listening on `localhost:5556`.
-
-To test, use `netcat`:
-
+### Running the Asynchronous TCP Echo Server
+Run the following command:
 ```sh
-nc localhost 5556
+node TCPserverAsync.js
 ```
+- The server listens on `localhost:5556`.
+- It echoes back messages prefixed with `Echo: `.
+- If the message `quit` is received, the server responds with `Bye.` and disconnects the client.
 
-Type a message and press enter; the server will echo it back.
+### Running the HTTP Server
+Run the following command:
+```sh
+node HTTPServer.js
+```
+- The server listens on `localhost:5556`.
+- Supported endpoints:
+  - `GET /echo` - Echoes back the request body.
+  - Any other request returns `Hello World.`
 
----
+## Features
+- **`SimpleTCPserver.js`**: A basic TCP server that echoes incoming messages.
+- **`TCPserverAsync.js`**: An improved version that handles messages asynchronously.
+- **`HTTPServer.js`**: A minimal HTTP server with request parsing.
 
-## API Breakdown
-
-### **Socket Initialization**
-
-#### `soInit(socket)`
-
-Wraps a `net.Socket` object, managing connection state and event listeners.
-
-### **Reading from Socket**
-
-#### `soRead(conn)`
-
-Reads data asynchronously from the socket and returns it as a `Promise`.
-
-### **Writing to Socket**
-
-#### `soWrite(conn, data)`
-
-Writes data to the socket and resolves once the write operation is complete.
-
-### **Handling Connections**
-
-#### `newConn(socket)`
-
-Handles new incoming connections and calls `serveClient(socket)`.
-
-#### `serveClient(socket)`
-
-Implements the echo functionality, continuously reading and writing data until EOF.
-
-### **Server Management**
-
-#### `soListen()`
-
-Creates and starts a TCP server that listens for incoming connections.
-
-#### `soAccept(listener)`
-
-Waits for a new client connection and resolves with the connected socket.
-
-#### `main()`
-
-Starts the server, listens for connections, and manages client interactions.
-
----
-
-## Error Handling
-
-- Ensures that socket errors and EOF are properly managed.
-- Prevents hanging promises by rejecting on error conditions.
-
----
-
-## Contributing
-
-Contributions are welcome! Feel free to open an issue or submit a pull request.
-
----
+## Dependencies
+- Uses only the built-in Node.js `net` module.
+- No external dependencies required.
 
 ## License
-
-This project is open-source and available under the [MIT License](LICENSE).
-
+This project is licensed under the MIT License.
